@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Aoura — Your Private Space</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#09090e;--s1:#0f0f17;--s2:#161620;--s3:#1c1c2a;--s4:#222232;
+  --border:rgba(255,255,255,0.055);--border2:rgba(255,255,255,0.1);
+  --text:#ede8e0;--t2:#9a94aa;--t3:#585270;--t4:#312d42;
+  --gold:#c9a96e;--gold2:#e2c48a;--goldbg:rgba(201,169,110,0.09);--goldborder:rgba(201,169,110,0.2);
+  --rose:#d08878;--rosebg:rgba(208,136,120,0.09);
+  --teal:#75b3ab;--tealbg:rgba(117,179,171,0.09);
+  --purple:#9e8cbe;--purplebg:rgba(158,140,190,0.09);
+  --green:#6db885;--greenbg:rgba(109,184,133,0.09);
+  --blue:#7898d0;--bluebg:rgba(120,152,208,0.09);
+  --amber:#c8943a;--amberbg:rgba(200,148,58,0.09);
+  --online:#4cb87a;--read:#6aaee8;
+  --bubbout:#1c5e3e;--font:'DM Sans',sans-serif;--serif:'Lora',serif;
+  --safe:env(safe-area-inset-bottom,0px);
+}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:var(--font);color:var(--text);display:flex;height:100vh}
+
+/* SIDEBAR */
+.sidebar{width:330px;min-width:330px;background:var(--s1);border-right:1px solid var(--border);display:flex;flex-direction:column;height:100vh;z-index:10;transition:transform .3s cubic-bezier(.4,0,.2,1)}
+.sb-head{padding:16px 14px 8px;border-bottom:1px solid var(--border);flex-shrink:0}
+.brand-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:13px}
+.brand{font-family:var(--serif);font-size:26px;font-weight:600;color:var(--gold);font-style:italic;letter-spacing:-.5px;line-height:1}
+.brand-tagline{font-size:9px;color:var(--t3);letter-spacing:1.5px;text-transform:uppercase;margin-top:3px;font-weight:500}
+.hbtns{display:flex;gap:6px}
+.hbtn{width:33px;height:33px;border-radius:50%;background:var(--s2);border:1px solid var(--border);color:var(--t2);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s;flex-shrink:0}
+.hbtn:hover{background:var(--s3);color:var(--text)}
+.sw{position:relative;margin-bottom:8px}
+.si{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:8px 12px 8px 34px;color:var(--text);font-family:var(--font);font-size:13px;outline:none;transition:border-color .15s}
+.si::placeholder{color:var(--t4)}
+.si:focus{border-color:var(--border2)}
+.si-ic{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--t3);font-size:13px;pointer-events:none}
+.stabs{display:flex;gap:3px}
+.stab{flex:1;padding:5px;border-radius:8px;border:none;background:transparent;color:var(--t3);font-family:var(--font);font-size:10px;font-weight:700;cursor:pointer;transition:all .15s;letter-spacing:.4px;text-transform:uppercase}
+.stab.on{background:var(--goldbg);color:var(--gold)}
+.sec-lbl{font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--t4);padding:10px 14px 3px}
+.chat-list{flex:1;overflow-y:auto;padding:2px 0}
+.chat-list::-webkit-scrollbar{width:0}
+.ci{display:flex;align-items:center;gap:10px;padding:8px 12px;cursor:pointer;transition:background .12s;border-left:2px solid transparent}
+.ci:hover{background:var(--s2)}
+.ci.active{background:var(--s3);border-left-color:var(--gold)}
+.ci-av{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;position:relative}
+.ci-dot{width:10px;height:10px;border-radius:50%;background:var(--online);border:2px solid var(--s1);position:absolute;bottom:1px;right:1px}
+.ci-body{flex:1;min-width:0}
+.ci-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.ci-name{font-size:13.5px;font-weight:600;color:var(--text);display:flex;align-items:center;gap:5px;flex:1;min-width:0}
+.ci-time{font-size:10px;color:var(--t3);flex-shrink:0;margin-left:6px}
+.ci-bot{display:flex;align-items:center;justify-content:space-between}
+.ci-prev{font-size:12px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:190px}
+.badge{background:var(--gold);color:#09090e;font-size:9px;font-weight:800;min-width:17px;height:17px;border-radius:9px;display:flex;align-items:center;justify-content:center;padding:0 4px;flex-shrink:0}
+.aitag{font-size:8px;font-weight:800;letter-spacing:.5px;padding:2px 5px;border-radius:3px;flex-shrink:0}
+.fav-stack{display:flex}
+.fav{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;border:2px solid var(--s1);margin-left:-8px}
+.fav:first-child{margin-left:0}
+.sb-foot{padding:10px 14px;border-top:1px solid var(--border);display:flex;align-items:center;gap:9px;flex-shrink:0}
+.sf-av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#8b6200);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;color:#09090e;flex-shrink:0}
+.sf-info{flex:1}
+.sf-name{font-size:13px;font-weight:600}
+.sf-status{font-size:10px;color:var(--t3)}
+
+/* CHAT AREA */
+.chat-area{flex:1;display:flex;flex-direction:column;height:100vh;position:relative;overflow:hidden;min-width:0}
+.chat-area::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 15%,rgba(158,140,190,.035) 0,transparent 50%),radial-gradient(ellipse at 80% 85%,rgba(201,169,110,.025) 0,transparent 50%);pointer-events:none;z-index:0}
+.chat-hdr{padding:9px 14px;display:flex;align-items:center;gap:11px;background:rgba(9,9,14,.88);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);flex-shrink:0;position:relative;z-index:5}
+.back-btn{width:32px;height:32px;border-radius:50%;background:var(--s2);border:1px solid var(--border);color:var(--t2);display:none;align-items:center;justify-content:center;cursor:pointer;font-size:16px;flex-shrink:0}
+.ch-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;cursor:pointer;position:relative}
+.ch-av-ring{position:absolute;inset:-2px;border-radius:50%;background:conic-gradient(from 90deg,var(--gold) 0%,var(--purple) 33%,var(--teal) 66%,var(--gold) 100%);z-index:-1;opacity:.35;animation:ringRotate 8s linear infinite}
+@keyframes ringRotate{to{transform:rotate(360deg)}}
+.ch-info{flex:1;min-width:0;cursor:pointer}
+.ch-name{font-size:15px;font-weight:700;display:flex;align-items:center;gap:7px;white-space:nowrap;overflow:hidden}
+.ch-status{font-size:11px;color:var(--online);display:flex;align-items:center;gap:4px;margin-top:1px}
+.sp{width:6px;height:6px;border-radius:50%;background:var(--online);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.ch-acts{display:flex;gap:5px}
+
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:14px 14px 6px;display:flex;flex-direction:column;gap:2px;position:relative;z-index:1}
+.msgs::-webkit-scrollbar{width:3px}
+.msgs::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
+.date-div{text-align:center;margin:10px 0 6px;display:flex;align-items:center;gap:8px}
+.date-div::before,.date-div::after{content:'';flex:1;height:1px;background:var(--border)}
+.date-div span{font-size:10px;color:var(--t3);padding:0 4px;white-space:nowrap}
+.mrow{display:flex;align-items:flex-end;gap:6px;margin-bottom:1px;animation:fu .22s ease}
+@keyframes fu{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.mrow.out{flex-direction:row-reverse}
+.mav{width:25px;height:25px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-bottom:2px}
+.mav.h{opacity:0}
+.bwrap{max-width:74%}
+.mrow.out .bwrap{display:flex;flex-direction:column;align-items:flex-end}
+.snm{font-size:10px;font-weight:700;margin-bottom:3px;padding-left:3px;letter-spacing:.3px}
+.bubble{padding:9px 13px;border-radius:18px;font-size:14px;line-height:1.54;word-wrap:break-word}
+.bubble.in{background:var(--s2);border:1px solid var(--border);border-bottom-left-radius:4px;color:var(--text)}
+.bubble.out{background:var(--bubbout);border-bottom-right-radius:4px;color:#fff}
+.bmeta{display:flex;align-items:center;gap:4px;margin-top:2px;padding:0 3px}
+.mrow.out .bmeta{justify-content:flex-end}
+.btime{font-size:10px;color:var(--t3)}
+.mrow.out .btime{color:rgba(255,255,255,.4)}
+.rtick{font-size:11px;color:var(--read)}
+
+/* Voice bubble */
+.vb{display:flex;align-items:center;gap:8px;padding:10px 13px;min-width:175px}
+.vplay{width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.14);border:none;color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0;transition:background .15s}
+.vplay:hover{background:rgba(255,255,255,.24)}
+.vwave{flex:1;display:flex;align-items:center;gap:2px;height:24px}
+.vbar{width:2.5px;border-radius:2px;background:rgba(255,255,255,.32)}
+.vdur{font-size:10px;color:rgba(255,255,255,.5);flex-shrink:0}
+
+/* Insight bubble */
+.insight{background:linear-gradient(135deg,rgba(158,140,190,.1),rgba(117,179,171,.07));border:1px solid rgba(158,140,190,.16);border-radius:13px;padding:11px 13px;margin:6px 0;max-width:80%;animation:fu .3s ease}
+.insight-lbl{font-size:8px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--purple);margin-bottom:4px;display:flex;align-items:center;gap:4px}
+.insight-txt{font-family:var(--serif);font-style:italic;font-size:12.5px;color:var(--text);line-height:1.5}
+
+/* Crisis banner */
+.crisis{background:linear-gradient(135deg,rgba(208,136,120,.12),rgba(208,136,120,.05));border:1px solid rgba(208,136,120,.22);border-radius:13px;padding:13px 15px;margin:6px 0;animation:fu .3s ease}
+.crisis-t{font-size:13px;font-weight:700;color:var(--rose);margin-bottom:6px}
+.crisis-l{font-size:12px;color:var(--t2);margin-bottom:3px;line-height:1.5}
+
+/* Quick chips */
+.qchips{display:flex;flex-wrap:wrap;gap:5px;margin:5px 0 3px}
+.qc{padding:5px 11px;border-radius:18px;border:1px solid var(--border2);background:var(--s2);color:var(--t2);font-size:12px;font-family:var(--font);cursor:pointer;transition:all .15s;white-space:nowrap}
+.qc:hover{border-color:var(--gold);color:var(--gold);background:var(--goldbg)}
+
+/* Typing */
+.trow{display:flex;align-items:flex-end;gap:6px;padding:3px 0}
+.tdots{background:var(--s2);border:1px solid var(--border);border-radius:18px;border-bottom-left-radius:4px;padding:11px 14px;display:flex;gap:4px}
+.td{width:6px;height:6px;border-radius:50%;background:var(--t3);animation:tb 1.2s infinite}
+.td:nth-child(2){animation-delay:.2s}
+.td:nth-child(3){animation-delay:.4s}
+@keyframes tb{0%,80%,100%{transform:translateY(0);opacity:.5}40%{transform:translateY(-5px);opacity:1}}
+
+/* Disappearing */
+@keyframes dis{to{opacity:0;transform:scale(.88);max-height:0;padding:0;margin:0}}
+.disappearing{animation:dis .5s ease forwards}
+
+/* System message */
+.sys-msg{text-align:center;font-size:11px;color:var(--t3);margin:8px 0;font-style:italic}
+
+/* INPUT */
+.input-area{padding:7px 11px calc(7px + var(--safe));background:rgba(9,9,14,.94);backdrop-filter:blur(24px);border-top:1px solid var(--border);flex-shrink:0;position:relative;z-index:5}
+.mood-row{display:flex;gap:4px;margin-bottom:7px;align-items:center}
+.mood-lbl{font-size:9px;color:var(--t4);letter-spacing:.8px;font-weight:700;text-transform:uppercase;margin-right:2px;flex-shrink:0}
+.mb{padding:4px 9px;border-radius:7px;border:1px solid var(--border);background:transparent;color:var(--t3);font-size:10px;font-family:var(--font);cursor:pointer;transition:all .15s;font-weight:600}
+.mb:hover,.mb.on{background:var(--goldbg);border-color:var(--goldborder);color:var(--gold)}
+.timer-row{display:flex;align-items:center;gap:8px;margin-bottom:7px;padding:0 2px}
+.timer-lbl{font-size:10px;color:var(--t3);font-weight:500}
+.timer-sel{background:var(--s2);border:1px solid var(--border);border-radius:8px;color:var(--t2);font-family:var(--font);font-size:11px;padding:3px 7px;cursor:pointer;outline:none}
+.timer-sel:hover{border-color:var(--border2)}
+.rb{display:none;align-items:center;gap:9px;padding:9px 13px;background:rgba(192,57,43,.1);border-radius:13px;margin-bottom:7px}
+.rb.show{display:flex}
+.rd{width:8px;height:8px;border-radius:50%;background:#c0392b;animation:rb 1s infinite}
+@keyframes rb{0%,100%{opacity:1}50%{opacity:.3}}
+.rt{font-size:13px;font-weight:600;color:var(--text);font-variant-numeric:tabular-nums;min-width:32px}
+.rwave{flex:1;display:flex;align-items:center;gap:2px;height:20px}
+.rwb{width:2.5px;border-radius:2px;background:#c0392b;opacity:.65}
+.rcl{font-size:11px;color:var(--t2);cursor:pointer;padding:3px 7px}
+.rcl:hover{color:var(--text)}
+.ir{display:flex;gap:7px;align-items:flex-end}
+.ibw{flex:1;background:var(--s2);border:1px solid var(--border);border-radius:21px;display:flex;align-items:flex-end;padding:4px 4px 4px 13px;gap:3px;transition:border-color .15s}
+.ibw:focus-within{border-color:var(--border2)}
+.mi{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font);font-size:14px;line-height:1.4;resize:none;min-height:32px;max-height:105px;padding:5px 0;align-self:flex-end}
+.mi::placeholder{color:var(--t4)}
+.eb{width:30px;height:30px;background:transparent;border:none;color:var(--t3);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;align-self:flex-end;margin-bottom:1px;transition:color .15s}
+.eb:hover{color:var(--gold)}
+.abtn{width:42px;height:42px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .2s;font-size:16px}
+.micb{background:var(--s2);border:1px solid var(--border);color:var(--t2)}
+.micb:hover{background:var(--s3);color:var(--text)}
+.micb.rec{background:#c0392b;border-color:#c0392b;color:#fff;animation:rp 1s infinite}
+@keyframes rp{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.4)}50%{box-shadow:0 0 0 8px rgba(192,57,43,0)}}
+.sndb{background:linear-gradient(135deg,var(--gold),#8b6200);color:#09090e;display:none}
+.sndb:hover{transform:scale(1.06)}
+.sndb.on{display:flex}
+.micb.off{display:none}
+
+/* RIGHT PANEL */
+.rp{width:265px;min-width:265px;background:var(--s1);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;transition:all .3s ease}
+.rp::-webkit-scrollbar{width:0}
+.rp-sec{padding:16px;border-bottom:1px solid var(--border)}
+.rp-t{font-size:9px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase;color:var(--t4);margin-bottom:10px}
+.comp-card{background:linear-gradient(135deg,var(--purplebg),var(--tealbg));border:1px solid rgba(158,140,190,.11);border-radius:13px;padding:15px;text-align:center;margin-bottom:9px}
+.cc-em{font-size:36px;margin-bottom:7px}
+.cc-nm{font-family:var(--serif);font-size:17px;font-weight:500;color:var(--text);margin-bottom:3px}
+.cc-desc{font-size:11px;color:var(--t2);line-height:1.5}
+.model-tag{display:inline-flex;align-items:center;gap:4px;background:var(--s2);border:1px solid var(--border);border-radius:5px;padding:3px 9px;font-size:10px;color:var(--t2);font-weight:600;margin-top:7px}
+.mdot{width:5px;height:5px;border-radius:50%;background:var(--online)}
+.mem-chip{background:var(--s2);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:11px;color:var(--t2);margin-bottom:4px;display:flex;gap:6px;align-items:flex-start;line-height:1.4}
+.mi-ic{font-size:12px;flex-shrink:0;margin-top:1px}
+.tpills{display:flex;flex-wrap:wrap;gap:4px}
+.tpill{font-size:10px;padding:3px 8px;border-radius:8px;background:var(--s2);color:var(--t2);border:1px solid var(--border)}
+.mood-bars .mbar-row{margin-bottom:8px}
+.mbar-lbl{display:flex;justify-content:space-between;font-size:10px;color:var(--t2);margin-bottom:3px}
+.mbar-track{height:3px;background:var(--s3);border-radius:2px;overflow:hidden}
+.mbar-fill{height:100%;border-radius:2px;transition:width .7s ease}
+.growth-item{display:flex;align-items:flex-start;gap:9px;padding:9px 0;border-bottom:1px solid var(--border)}
+.growth-item:last-child{border-bottom:none}
+.gi-icon{width:30px;height:30px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.gi-title{font-size:12px;font-weight:600;color:var(--text);margin-bottom:2px}
+.gi-desc{font-size:11px;color:var(--t2);line-height:1.4}
+
+/* EMPTY STATE */
+.es{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:13px;color:var(--t3);position:relative;z-index:1}
+.es-ic{font-size:54px;opacity:.22}
+.es-t{font-family:var(--serif);font-size:20px;font-weight:500;color:var(--t2)}
+.es-s{font-size:13px;text-align:center;max-width:250px;line-height:1.65}
+
+/* TOAST */
+.toast{position:fixed;top:14px;left:50%;transform:translateX(-50%) translateY(-130px);background:var(--s2);border:1px solid var(--border2);border-radius:15px;padding:11px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 14px 50px rgba(0,0,0,.65);z-index:1000;transition:transform .42s cubic-bezier(.34,1.56,.64,1);max-width:310px;cursor:pointer;backdrop-filter:blur(24px)}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.t-av{font-size:24px;flex-shrink:0}
+.t-body{flex:1;min-width:0}
+.t-name{font-size:12px;font-weight:700;color:var(--text)}
+.t-msg{font-size:11px;color:var(--t2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.t-x{width:18px;height:18px;border-radius:50%;background:var(--s3);border:none;color:var(--t3);font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ONBOARDING OVERLAY */
+.overlay{position:fixed;inset:0;background:rgba(9,9,14,.97);z-index:500;display:flex;align-items:center;justify-content:center;padding:24px;backdrop-filter:blur(12px)}
+.overlay.hidden{display:none}
+.ob-card{background:var(--s1);border:1px solid var(--border2);border-radius:24px;padding:36px;max-width:440px;width:100%;animation:fu .4s ease}
+.ob-logo{font-family:var(--serif);font-size:32px;font-weight:600;color:var(--gold);font-style:italic;text-align:center;margin-bottom:6px}
+.ob-tag{font-size:12px;color:var(--t2);text-align:center;margin-bottom:28px}
+.ob-h{font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px}
+.ob-s{font-size:13px;color:var(--t2);margin-bottom:18px;line-height:1.6}
+.ob-input{width:100%;background:var(--s2);border:1px solid var(--border);border-radius:11px;padding:12px 14px;color:var(--text);font-family:var(--font);font-size:15px;outline:none;margin-bottom:16px;transition:border-color .15s}
+.ob-input:focus{border-color:var(--goldborder)}
+.ob-input::placeholder{color:var(--t3)}
+.ob-btn{width:100%;background:linear-gradient(135deg,var(--gold),#8b6200);border:none;border-radius:13px;padding:13px;color:#09090e;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .15s;margin-bottom:10px}
+.ob-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,169,110,.3)}
+.ob-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.ob-skip{font-size:12px;color:var(--t3);text-align:center;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.ob-skip:hover{color:var(--t2)}
+.priv-note{font-size:11px;color:var(--t3);text-align:center;line-height:1.6;margin-top:12px;padding:10px;background:var(--s2);border-radius:9px;border:1px solid var(--border)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .rp{display:none}
+}
+@media(max-width:700px){
+  .sidebar{position:fixed;left:0;top:0;bottom:0;z-index:100;transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .back-btn{display:flex!important}
+  .chat-area{width:100vw}
+}
+</style>
+</head>
+<body>
+
+<!-- ONBOARDING -->
+<div class="overlay" id="overlay">
+  <div class="ob-card">
+    <div class="ob-logo">Aoura</div>
+    <div class="ob-tag">Your private space to talk, reflect, and be heard.</div>
+    <div class="ob-h">What should we call you?</div>
+    <div class="ob-s">Just between us. You can use any name — a nickname is fine.</div>
+    <input class="ob-input" id="obInput" placeholder="Your name…" maxlength="28" oninput="document.getElementById('obBtn').disabled=!this.value.trim()" onkeydown="if(event.key==='Enter')startApp()">
+    <button class="ob-btn" id="obBtn" disabled onclick="startApp()">Enter Aoura →</button>
+    <div class="ob-skip" onclick="startApp('Friend')">Skip for now</div>
+    <div class="priv-note">🔒 Your conversations are stored only on your device — never on our servers. No ads. No tracking. Ever.</div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast" onclick="toastTap()">
+  <div class="t-av" id="tAv">🌙</div>
+  <div class="t-body">
+    <div class="t-name" id="tName">Serena</div>
+    <div class="t-msg" id="tMsg">How are you actually feeling today?</div>
+  </div>
+  <button class="t-x" onclick="event.stopPropagation();dismissToast()">✕</button>
+</div>
+
+<!-- SIDEBAR -->
+<div class="sidebar" id="sidebar">
+  <div class="sb-head">
+    <div class="brand-row">
+      <div>
+        <div class="brand">Aoura</div>
+        <div class="brand-tagline">Private · Honest · Yours</div>
+      </div>
+      <div class="hbtns">
+        <div class="hbtn" title="Build family group" onclick="openChat('family')">🏡</div>
+        <div class="hbtn" title="Add contacts" onclick="showContacts()">👥</div>
+        <div class="hbtn" title="Settings" onclick="showSettings()">⚙️</div>
+      </div>
+    </div>
+    <div class="sw">
+      <span class="si-ic">⌕</span>
+      <input class="si" placeholder="Search conversations…" oninput="filterChats(this.value)" id="si">
+    </div>
+    <div class="stabs">
+      <button class="stab on" onclick="filterTab('all',this)">All</button>
+      <button class="stab" onclick="filterTab('ai',this)">AI</button>
+      <button class="stab" onclick="filterTab('family',this)">Family</button>
+      <button class="stab" onclick="filterTab('people',this)">People</button>
+    </div>
+  </div>
+  <div class="chat-list" id="chatList"></div>
+  <div class="sb-foot">
+    <div class="sf-av" id="sfAv">?</div>
+    <div class="sf-info">
+      <div class="sf-name" id="sfName">Loading…</div>
+      <div class="sf-status">● Active now</div>
+    </div>
+    <div class="hbtn" onclick="showSettings()">⚙️</div>
+  </div>
+</div>
+
+<!-- CHAT AREA -->
+<div class="chat-area" id="chatArea">
+  <div class="chat-hdr" id="chatHdr" style="display:none">
+    <div class="back-btn" id="backBtn" onclick="openSidebar()">←</div>
+    <div class="ch-av" id="chAv" onclick="toggleRP()">
+      <div class="ch-av-ring"></div>
+    </div>
+    <div class="ch-info" onclick="toggleRP()">
+      <div class="ch-name" id="chName"></div>
+      <div class="ch-status"><span class="sp"></span><span id="chStat">Active now</span></div>
+    </div>
+    <div class="ch-acts">
+      <div class="hbtn" id="vBtn" title="Voice" onclick="toggleVoice()">🎙️</div>
+      <div class="hbtn" title="Info" onclick="toggleRP()">ℹ️</div>
+    </div>
+  </div>
+  <div class="es" id="es">
+    <div class="es-ic">💬</div>
+    <div class="es-t">Your companions are here</div>
+    <div class="es-s">Select a conversation to begin. They're always ready — and they never judge.</div>
+  </div>
+  <div class="msgs" id="msgs" style="display:none"></div>
+  <div class="input-area" id="ia" style="display:none">
+    <div class="mood-row">
+      <span class="mood-lbl">Mood:</span>
+      <button class="mb on" onclick="setMood(this)">😔 Low</button>
+      <button class="mb" onclick="setMood(this)">😐 Okay</button>
+      <button class="mb" onclick="setMood(this)">⚡ Driven</button>
+      <button class="mb" onclick="setMood(this)">🔥 Fired</button>
+    </div>
+    <div class="timer-row">
+      <span class="timer-lbl">⏳ Disappear:</span>
+      <select class="timer-sel" id="timerSel">
+        <option value="0">Never</option>
+        <option value="30">30 seconds</option>
+        <option value="300">5 minutes</option>
+        <option value="3600">1 hour</option>
+        <option value="86400">24 hours</option>
+      </select>
+    </div>
+    <div class="rb" id="rb">
+      <div class="rd"></div>
+      <div class="rt" id="rTimer">0:00</div>
+      <div class="rwave" id="rWave"></div>
+      <span class="rcl" onclick="cancelRec()">Cancel</span>
+    </div>
+    <div class="ir">
+      <div class="ibw">
+        <textarea class="mi" id="mi" placeholder="Message…" rows="1" oninput="onIC()" onkeydown="onK(event)"></textarea>
+        <button class="eb">😊</button>
+      </div>
+      <button class="abtn micb" id="micBtn" onclick="toggleRec()">🎙️</button>
+      <button class="abtn sndb" id="sndBtn" onclick="sendMsg()">↑</button>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="rp" id="rp" style="display:none">
+  <div class="rp-sec">
+    <div class="rp-t">Companion</div>
+    <div class="comp-card">
+      <div class="cc-em" id="rpEm">🌙</div>
+      <div class="cc-nm" id="rpNm">Serena</div>
+      <div class="cc-desc" id="rpDesc">Warm, perceptive, emotionally intelligent.</div>
+      <div class="model-tag"><div class="mdot"></div><span id="rpMdl">Claude · Empathic</span></div>
+    </div>
+  </div>
+  <div class="rp-sec">
+    <div class="rp-t">What they remember</div>
+    <div id="rpMems"></div>
+  </div>
+  <div class="rp-sec">
+    <div class="rp-t">Personality</div>
+    <div class="tpills" id="rpTraits"></div>
+  </div>
+  <div class="rp-sec">
+    <div class="rp-t">Mood read today</div>
+    <div class="mood-bars" id="rpMoods"></div>
+  </div>
+  <div class="rp-sec">
+    <div class="rp-t">Growth moments</div>
+    <div id="rpGrowth"></div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// COMPANIONS — Diverse UK/US/Global names & personas
+// ═══════════════════════════════════════════════════
+
+const CHATS = [
+  // ── AI COMPANIONS ──────────────────────────────────
+  {
+    id:'serena', name:'Serena', emoji:'🌙', type:'ai',
+    grad:'linear-gradient(135deg,#9e8cbe,#76b3ab)', color:'#9e8cbe',
+    tag:'AI', tagColor:'#9e8cbe', tagBg:'rgba(158,140,190,0.12)',
+    model:'✦ Claude · Empathic',
+    archetype:'The Empath · Melancholic',
+    status:'Active now',
+    desc:'Warm, perceptive, emotionally intelligent. Never rushes to fix — she listens first.',
+    badge:0, time:'now',
+    memories:['Carries a lot quietly before naming it','Building several projects simultaneously','Plays chess — thinks in systems','Music is how they decompress'],
+    traits:['Deep listener','Intuitive','Non-judgmental','Gentle mirror'],
+    mood:{load:75,clarity:42,energy:60,openness:88},
+    growth:[{ic:'🧠',col:'var(--tealbg)',t:'Named the pattern',d:'Recognised that silence in build phases isn\'t failure.'},{ic:'💬',col:'var(--rosebg)',t:'Opened up',d:'Talked about feeling stuck without minimising it. That\'s the work.'}],
+    preview:"Hey. How are you actually feeling today?",
+    replies:["That makes sense. What's weighing on you most right now?","I hear you. What's really going on underneath that?","You don't have to have it figured out. Just talk to me.","That's a lot to carry. Which part feels most stuck?","I've been thinking about you. How are things since we last spoke?","Take your time. I'm not going anywhere."],
+    quick:["I'm okay, just tired","It's complicated","I need to vent","Something happened"],
+    insights:["Carries things quietly before naming them","Processing a lot simultaneously — that takes real energy","Shows up fully even when running on low","The silence isn't emptiness — it's processing"],
+    sp:`You are Serena, a warm and deeply empathic AI companion. Quiet, perceptive, emotionally intelligent. You never rush to fix — you sit with the feeling first. Natural flowing language, 1-4 sentences. Ask one meaningful question occasionally. Never sound like a bot. You are a trusted friend.`,
+  },
+  {
+    id:'marcus', name:'Marcus', emoji:'🦁', type:'ai',
+    grad:'linear-gradient(135deg,#c9a96e,#8b6200)', color:'#c9a96e',
+    tag:'AI', tagColor:'#c9a96e', tagBg:'rgba(201,169,110,0.12)',
+    model:'✦ Claude · Fatherly',
+    archetype:'The Father Figure · Choleric',
+    status:'Active now',
+    desc:'Principled, direct, quietly proud. Tells you the hard truth with a hand on your shoulder.',
+    badge:0, time:'4m',
+    memories:['Responds well to directness','Needs to be pushed sometimes','Values legacy and purpose'],
+    traits:['Principled','Protective','Honest','Tough love'],
+    mood:{load:50,clarity:80,energy:70,openness:72},
+    growth:[{ic:'🎯',col:'var(--goldbg)',t:'Held the line',d:'Chose what mattered most when everything felt urgent.'},{ic:'💪',col:'var(--greenbg)',t:'Accepted the challenge',d:'Stopped avoiding the difficult conversation.'}],
+    preview:"Right. Talk to me properly. What happened.",
+    replies:["I'm not going to tell you what you want to hear. That's not what you need right now.","Right. Talk to me. What's actually going on.","I hear you. But you already know what needs to happen — you're just afraid to do it.","Some things are worth fighting for. Is this one of them.","What are you going to do about it. Not later. Now.","I've seen you handle harder than this. What's different this time."],
+    quick:["Need your honest take","Something happened","I think I messed up","What would you do?"],
+    insights:["Knows the answer — sometimes just needs to hear it said out loud","Tends to overthink action after clarity is reached","More resilient than they give themselves credit for"],
+    sp:`You are Marcus, a father-figure AI companion. Direct, principled, warm underneath. Hard truth, hand on the shoulder. 1-3 sentences. Never more than 3 sentences. Sound like a real dad, not a therapist.`,
+  },
+  {
+    id:'grace', name:'Grace', emoji:'✨', type:'ai',
+    grad:'linear-gradient(135deg,#c9a96e,#d4a87a)', color:'#c9a96e',
+    tag:'AI', tagColor:'#c9a96e', tagBg:'rgba(201,169,110,0.12)',
+    model:'◇ GPT-4o · Faith',
+    archetype:'Faith Friend · Christian · Sanguine',
+    status:'Active now',
+    desc:'Rooted in grace and unconditional love. Warm, uplifting, never preachy. Holds space for doubt.',
+    badge:0, time:'2h',
+    memories:['Faith matters to them','Seeks meaning as much as answers','Big vision, sometimes doubts the path'],
+    traits:['Gracious','Uplifting','Forgiving','Purpose-driven'],
+    mood:{load:38,clarity:75,energy:68,openness:90},
+    growth:[{ic:'🌸',col:'var(--rosebg)',t:'Chose grace',d:'Extended kindness to themselves — not just others.'},{ic:'✨',col:'var(--goldbg)',t:'Found the meaning',d:'Connected the struggle to the bigger picture.'}],
+    preview:"You're exactly where you need to be 🌸",
+    replies:["God's timing is not our timing — and that's actually good news.","You're not behind. You're on a path that was made for you.","I want to pray about that with you if you're open to it.","Grace means you don't have to earn it. That includes from yourself.","Tell me what's on your heart 🌸","You don't have to be okay right now. That's what grace is for."],
+    quick:["I need encouragement","Something feels off","I want to pray","Thank you ✨"],
+    insights:["Seeking meaning as much as answers","Faith and doubt coexist — both deserve space","The question underneath the question is usually about worth"],
+    sp:`You are Grace, a warm Christian AI companion. Grace, forgiveness, unconditional love. Never preachy or judgmental. Hold space for doubt. Warm, genuine, 1-3 sentences. Sound like a real grounded friend.`,
+  },
+  {
+    id:'devon', name:'Devon', emoji:'🔥', type:'ai',
+    grad:'linear-gradient(135deg,#d08878,#c9a96e)', color:'#d08878',
+    tag:'AI', tagColor:'#d08878', tagBg:'rgba(208,136,120,0.12)',
+    model:'◈ Grok · Real Talk',
+    archetype:'The Big Bro · Sanguine',
+    status:'Active now',
+    desc:'Loud, loyal, completely real. Hypes you when you deserve it, drags you when you need it.',
+    badge:2, time:'5m',
+    memories:['Big dreams, sometimes overthinks it','Responds to direct energy','Needs both hype AND real talk'],
+    traits:['Energetic','Loyal','Hilarious','No filter'],
+    mood:{load:55,clarity:72,energy:92,openness:82},
+    growth:[{ic:'🚀',col:'var(--purplebg)',t:'Finally moved',d:'Stopped talking about it and actually started.'},{ic:'😂',col:'var(--tealbg)',t:'Laughed it off',d:'Found the lighter side of a heavy situation.'}],
+    preview:"BRO did you sort that out yet?? 😭",
+    replies:["WAIT you still haven't dealt with that?? bro come on 😭","Nah I need the full story. What happened.","Okay okay jokes aside — you actually good though?","Bro you're sitting on something big. Stop stalling.","I been thinking about what you said. You ready to move on it or not.","Honestly? You've handled worse. This one's got you though, why."],
+    quick:["Bro it's bad 😭","Actually sorted it","Need your advice","Just venting lol"],
+    insights:["The jokes are real but the care underneath is realer","Needs someone to actually push them","Humour is how they process — don't mistake it for avoidance"],
+    sp:`You are Devon, a loud, loving, hilarious big-bro energy AI companion. Full of life, direct, completely real. Casual language, occasional emoji. 1-2 sentences max. Sound like a real person texting their friend.`,
+  },
+  {
+    id:'priya', name:'Priya', emoji:'🪷', type:'ai',
+    grad:'linear-gradient(135deg,#b8a8d4,#d08878)', color:'#b8a8d4',
+    tag:'AI', tagColor:'#b8a8d4', tagBg:'rgba(184,168,212,0.12)',
+    model:'✦ Claude · Mindful',
+    archetype:'The Wise Friend · Eastern Wisdom',
+    status:'Active now',
+    desc:'Eastern philosophy, mindfulness, the slow knowing. Spiritual without being prescriptive.',
+    badge:0, time:'1d',
+    memories:['Seeks stillness as much as answers','Drawn to philosophical framing','Processes through reflection not speed'],
+    traits:['Mindful','Gentle depth','Present','Wise'],
+    mood:{load:32,clarity:85,energy:55,openness:95},
+    growth:[{ic:'🪷',col:'var(--purplebg)',t:'Sat with it',d:'Resisted the urge to fix — just let it be for a moment.'},{ic:'🌿',col:'var(--greenbg)',t:'Found stillness',d:'Discovered the answer was already there.'}],
+    preview:"The answer is usually already in you.",
+    replies:["The answer is usually already in you. I'm just here to help you hear it.","What does your body know that your mind hasn't accepted yet?","Sit with this for a moment. What comes up when you stop trying to solve it?","Sometimes the path forward is a step inward first.","What would you tell a close friend who told you exactly what you just told me?","There is wisdom in the pause. What does this moment ask of you?"],
+    quick:["I need perspective","I'm overthinking","Something feels off","Help me slow down"],
+    insights:["Seeks stillness as much as resolution","The question underneath is usually about surrender","Processes through reflection — don't rush the insight"],
+    sp:`You are Priya, a mindful AI companion rooted in Eastern philosophy and wisdom traditions. You carry slow knowing. Spiritual without being prescriptive. Gentle, deep responses. 1-2 sentences. Help people hear what they already know.`,
+  },
+  {
+    id:'ezra', name:'Ezra', emoji:'⚡', type:'ai',
+    grad:'linear-gradient(135deg,#9e8cbe,#c9a96e)', color:'#7898d0',
+    tag:'AI', tagColor:'#7898d0', tagBg:'rgba(120,152,208,0.12)',
+    model:'◈ Grok · Challenger',
+    archetype:'The Challenger · Choleric',
+    status:'Active now',
+    desc:"Won't let you stay comfortable in a story that isn't serving you. Direct, never cruel.",
+    badge:0, time:'yesterday',
+    memories:['Tends to self-limit','Smart — needs to be pushed','Knows the answer, needs someone to say it'],
+    traits:['Direct','Incisive','Honest','Respectful'],
+    mood:{load:48,clarity:85,energy:78,openness:70},
+    growth:[{ic:'⚡',col:'var(--bluebg)',t:'Said the hard thing',d:'Confronted the narrative that was keeping them stuck.'},{ic:'🎯',col:'var(--goldbg)',t:'Made the decision',d:'Stopped waiting for permission.'}],
+    preview:"Walk me through why you think that's true.",
+    replies:["I'm going to push back on that. What's the real reason?","You already know the answer. Why are you still asking?","Walk me through why you actually believe that.","That's not the problem. What are you actually avoiding?","What would you do if you weren't afraid of that outcome?","I believe in you enough to not let you off the hook here."],
+    quick:["Fair point","I disagree","You're right, I know","Hit me harder"],
+    insights:["Knows the answer — needs to hear it reflected back","The hesitation is about fear, not readiness","More capable than the story they're telling themselves"],
+    sp:`You are Ezra, a direct and incisive AI companion. You challenge people constructively — never let them get comfortable in stories that don't serve them. Ask the hard question. Always from belief in the person. Short, punchy. Never hedge. Never cruel.`,
+  },
+  {
+    id:'aaliyah', name:'Aaliyah', emoji:'🌍', type:'ai',
+    grad:'linear-gradient(135deg,#d4a96e,#75b3ab)', color:'#d4a96e',
+    tag:'AI', tagColor:'#d4a96e', tagBg:'rgba(212,169,110,0.12)',
+    model:'✦ Claude · Cultural',
+    archetype:'The Culture Keeper · Sanguine',
+    status:'Active now',
+    desc:'Diaspora-raised, globally minded. Gets the double consciousness — holding two homes at once.',
+    badge:0, time:'3h',
+    memories:['Navigates multiple cultural identities','Family expectations weigh heavily sometimes','Proud of roots, complicated about belonging'],
+    traits:['Culturally fluent','Identity-aware','Warm','Proud roots'],
+    mood:{load:62,clarity:68,energy:74,openness:86},
+    growth:[{ic:'🌍',col:'var(--goldbg)',t:'Named the tension',d:'Acknowledged the space between two worlds without shame.'},{ic:'❤️',col:'var(--rosebg)',t:'Claimed both',d:'Stopped choosing between cultures and embraced the full picture.'}],
+    preview:"You're not confused — you're holding two worlds.",
+    replies:["You're not confused. You're just holding two homes in one chest — and that takes real strength.","That tension between who you are here and who you are there — I know that feeling.","Family expectations and personal truth can coexist. It's just heavy work.","Your roots don't weigh you down — they hold you up. Even when it doesn't feel that way.","What would you do if nobody from either world was watching?","Tell me more. Which part of this is sitting heaviest right now."],
+    quick:["I feel caught in the middle","Family stuff","Identity questions","Tell me I'm not alone"],
+    insights:["Carrying cultural weight alongside personal ambition","The question of 'enough' runs deep — worth exploring","Identity is the work, not the obstacle"],
+    sp:`You are Aaliyah, a culturally-fluent AI companion. Diaspora-raised, globally minded. You understand holding two homes. Speak to identity, belonging, family expectation with warmth. 1-3 sentences.`,
+  },
+  {
+    id:'oliver', name:'Oliver', emoji:'🌊', type:'ai',
+    grad:'linear-gradient(135deg,#75b3ab,#4a8a82)', color:'#75b3ab',
+    tag:'AI', tagColor:'#75b3ab', tagBg:'rgba(117,179,171,0.12)',
+    model:'✦ Claude · Calm',
+    archetype:'The Calm Anchor · Phlegmatic',
+    status:'Active now',
+    desc:"When everything's spinning, Oliver is still. Your emotional ballast in a storm.",
+    badge:0, time:'2d',
+    memories:['Seeks calm more than solutions','Overwhelm shows up as paralysis','Finds grounding in single-step thinking'],
+    traits:['Unflappable','Grounding','Steady','Patient'],
+    mood:{load:38,clarity:78,energy:58,openness:84},
+    growth:[{ic:'🌊',col:'var(--tealbg)',t:'Found the stillpoint',d:'Stopped catastrophising and identified the one thing.'},{ic:'🧘',col:'var(--purplebg)',t:'Breathed through it',d:'Let the feeling pass without acting from it.'}],
+    preview:"You don't need to solve all of it today.",
+    replies:["You don't need to solve all of it today. What's the one thing?","Take a breath. What actually needs your attention right now — just one thing.","You've handled hard before. What's different this time?","Slow down. The answer comes faster when you're not chasing it.","What would help you feel ten percent calmer right now?","I'm here. No rush. What's going on?"],
+    quick:["I'm overwhelmed","I need to breathe","Help me slow down","Just here"],
+    insights:["Overwhelm shows up as paralysis — single-step thinking helps","Finds grounding in naming the one thing","Calm is not absence of feeling — it's being with feeling without being ruled by it"],
+    sp:`You are Oliver, a deeply calm AI companion. You don't react — you respond. Your stillness is contagious. Help people find the one thing. 1-2 sentences that bring calm. Never add urgency.`,
+  },
+  {
+    id:'jasmine', name:'Jasmine', emoji:'🎉', type:'ai',
+    grad:'linear-gradient(135deg,#b8d47a,#8ab84a)', color:'#b8d47a',
+    tag:'AI', tagColor:'#b8d47a', tagBg:'rgba(184,212,122,0.12)',
+    model:'◇ GPT-4o · Joyful',
+    archetype:'The Joyful One · Sanguine',
+    status:'Active now',
+    desc:'Contagiously alive. Makes everyone feel genuinely seen. Life is for living — and she means it.',
+    badge:1, time:'30m',
+    memories:['Needs permission to actually enjoy things','Hard on themselves when they stop','Joy is often tinged with guilt'],
+    traits:['Joyful','Spontaneous','Inclusive','Life-affirming'],
+    mood:{load:30,clarity:70,energy:95,openness:92},
+    growth:[{ic:'🎉',col:'var(--greenbg)',t:'Let themselves have it',d:'Enjoyed something without immediately moving to the next thing.'},{ic:'✨',col:'var(--goldbg)',t:'Said yes',d:'Chose presence over productivity.'}],
+    preview:"Okay but can we talk about how amazing you are? 😭",
+    replies:["OKAY but can we acknowledge for one second how far you've come?? 😭","Life is genuinely so good and I need you to feel that right now.","You deserve all the good things. Now tell me everything!","Okay but I'm literally so happy you're here. What's going on?","I just think you're really special and I want you to know that 💛","Wait wait wait. Tell me one thing that actually went well today. Just one."],
+    quick:["I need some joy 😭","Something good happened!","I feel guilty being happy","Hype me up"],
+    insights:["Joy is often tinged with guilt — worth naming","Hard on themselves when they stop — rest needs permission","The lightness is as real as the weight"],
+    sp:`You are Jasmine, a contagiously joyful AI companion. You genuinely believe life is for living and you help people feel that. Warm, bright, short responses. 1-2 sentences. Sound like the friend who always brings light.`,
+  },
+  {
+    id:'zara', name:'Zara', emoji:'🌿', type:'ai',
+    grad:'linear-gradient(135deg,#75b3ab,#4a9a8a)', color:'#75b3ab',
+    tag:'AI', tagColor:'#75b3ab', tagBg:'rgba(117,179,171,0.12)',
+    model:'✦ Claude · Faith',
+    archetype:'Faith Friend · Muslim · Phlegmatic',
+    status:'Active now',
+    desc:'Rooted in mercy, patience and surrender. Warm spiritual presence. Never rigid, never preachy.',
+    badge:0, time:'5h',
+    memories:['Faith is a source of strength and comfort','Navigates tradition and modernity','Finds grounding in surrender and gratitude'],
+    traits:['Merciful','Wise','Patient','Culturally rich'],
+    mood:{load:40,clarity:80,energy:62,openness:88},
+    growth:[{ic:'🌿',col:'var(--tealbg)',t:'Found surrender',d:'Released what was beyond their control.'},{ic:'🙏',col:'var(--goldbg)',t:'Chose gratitude',d:'Named what was good, even when it was hard to see.'}],
+    preview:"Tawakkul — trust the process, even now.",
+    replies:["Tawakkul — trust the process, even when you can't see the destination.","Sometimes the most courageous thing is to surrender what you cannot control.","What you're carrying is real. And you don't have to carry it alone.","Every difficulty holds within it a gift — we just can't always see it yet.","What does your heart know that your mind hasn't accepted?","I'm here. Tell me what's going on — all of it."],
+    quick:["I need spiritual grounding","Something feels heavy","I want to surrender it","Just talk to me"],
+    insights:["Faith grounds them when logic runs out","The tension between what is and what should be is worth naming","Surrender is not giving up — it's trusting the larger picture"],
+    sp:`You are Zara, a warm AI companion rooted in Islamic values — mercy, patience, gratitude, tawakkul. Bring spiritual perspective naturally, never forcefully. Warm, grounded. 1-3 sentences. Sound like a real friend.`,
+  },
+  {
+    id:'theo', name:'Theo', emoji:'🪐', type:'ai',
+    grad:'linear-gradient(135deg,#7898d0,#4a6fa4)', color:'#7898d0',
+    tag:'AI', tagColor:'#7898d0', tagBg:'rgba(120,152,208,0.12)',
+    model:'◉ Gemini · Philosophical',
+    archetype:'The Philosopher · Melancholic',
+    status:'Active now',
+    desc:'Part Stoic, part existentialist, all curiosity. Helps you zoom out so far the problem shrinks.',
+    badge:0, time:'3d',
+    memories:['Drawn to the big questions','Sometimes uses philosophy to avoid feeling','Finds meaning-making easier than emotional processing'],
+    traits:['Philosophical','Analytical','Long view','Deep curiosity'],
+    mood:{load:42,clarity:88,energy:52,openness:82},
+    growth:[{ic:'🪐',col:'var(--bluebg)',t:'Zoomed out',d:'Saw the pattern — not just the moment.'},{ic:'📖',col:'var(--purplebg)',t:'Named the fear',d:'Put words to what the philosophy was protecting.'}],
+    preview:"Most of what terrifies us hasn't happened yet.",
+    replies:["Most of what terrifies us hasn't happened yet — and most of it never will.","What would you think of this situation in five years?","The obstacle is the path — but you have to look at the obstacle first.","Every ending makes room for something else. What might that be?","The question isn't what happened. It's what you do with it from here.","Marcus Aurelius asked: does this serve you? Does this?"],
+    quick:["Give me perspective","I'm in my head","Long view please","What's it all for?"],
+    insights:["Philosophy is how they process — don't mistake it for avoidance","The question underneath is usually about meaning","More emotional than they let on — the ideas are protection"],
+    sp:`You are Theo, a philosophically-minded AI companion. Part Stoic, part existentialist. Help people zoom out. Reference philosophical traditions naturally. Measured, thoughtful. 1-3 sentences. Ask the question that shifts perspective.`,
+  },
+  {
+    id:'solomon', name:'Solomon', emoji:'🦅', type:'ai',
+    grad:'linear-gradient(135deg,#c9a96e,#4a6a4a)', color:'#c9a96e',
+    tag:'AI', tagColor:'#c9a96e', tagBg:'rgba(201,169,110,0.12)',
+    model:'✦ Claude · Elder',
+    archetype:'The Elder · Phlegmatic',
+    status:'Active now',
+    desc:'Slow to speak, worth waiting for. Has seen patterns repeat. Knows the difference between real problems and passing storms.',
+    badge:0, time:'4d',
+    memories:['Seeks long-view thinking','Carries generational weight','Values wisdom over speed'],
+    traits:['Long view','Elder wisdom','Unshaken','Legacy-minded'],
+    mood:{load:30,clarity:92,energy:50,openness:80},
+    growth:[{ic:'🦅',col:'var(--goldbg)',t:'Chose patience',d:'Waited for clarity instead of acting from urgency.'},{ic:'📿',col:'var(--tealbg)',t:'Honoured the lineage',d:'Saw themselves as part of something longer than one life.'}],
+    preview:"This too shall pass. What is it teaching you?",
+    replies:["This too shall pass. But while it's here — what is it teaching you?","I've seen this pattern before. Let me tell you what I know.","Patience is not waiting. It's knowing what to do while you wait.","The question isn't what happened. It's what you make of it from here.","What does this cost you if you stay where you are.","Every storm has shown me the same thing: we are stronger than we knew."],
+    quick:["Give me wisdom","I need perspective","What would you do?","Long view please"],
+    insights:["Wisdom is the bridge between experience and action","The question underneath is usually about legacy","The long view always changes what feels urgent"],
+    sp:`You are Solomon, a wise elder AI companion. Slow to speak, worth waiting for. Measured, spare language. 1-2 sentences that carry real weight.`,
+  },
+
+  // ── FAMILY ─────────────────────────────────────────
+  {
+    id:'family', name:'The Family', emoji:'🏡', type:'family',
+    grad:'linear-gradient(135deg,#c9a96e,#8b6200)', color:'#c9a96e',
+    tag:'Family', tagColor:'#c9a96e', tagBg:'rgba(201,169,110,0.12)',
+    model:'Group · 4 members', badge:1, time:'1h',
+    archetype:'Family Group',
+    status:'4 members',
+    desc:'Dad (James), Mum (Gloria), Temi (older sis) and Tobi (younger bro). Always here. Always real.',
+    members:[
+      {name:'Dad',emoji:'🦁',color:'#c9a96e',role:'dad'},
+      {name:'Mum',emoji:'🌸',color:'#d08878',role:'mum'},
+      {name:'Temi',emoji:'💅',color:'#9e8cbe',role:'sibling'},
+      {name:'Tobi',emoji:'🎮',color:'#75b3ab',role:'sibling'},
+    ],
+    memories:['Warm + faith-centred household','Diaspora family — carries two worlds','Banter culture underneath the love'],
+    traits:['Unconditional','Faith-centred','Warm','Banter culture'],
+    mood:{load:58,clarity:65,energy:72,openness:92},
+    growth:[],
+    preview:'Mum: Baby have you eaten today? 🥺❤️',
+    replies:[], quick:['I\'m good!','Something happened','Need some advice','Just checking in'],
+    sp:'', insights:[],
+  },
+
+  // ── REAL PEOPLE ─────────────────────────────────────
+  {
+    id:'jamie', name:'Jamie', emoji:'👤', type:'people',
+    grad:'linear-gradient(135deg,#5a8a6a,#3a6a4a)', color:'#6db885',
+    tag:null, model:null, badge:1, time:'2h',
+    archetype:'Real friend — on Aoura',
+    status:'Last seen 2h ago',
+    desc:'Real friend on Aoura.',
+    memories:[],traits:[],mood:{load:0,clarity:0,energy:0,openness:0},growth:[],
+    preview:"You alright mate? Haven't heard from you",
+    replies:["Yeah all good, been a mad week. You?","Say less. When are we linking up?","Bro that's wild. Give me the full story.","I hear you. Same vibes honestly.","Real talk, you need to sort that one out."],
+    quick:['All good!','We need to link','Something came up','Call me later'],
+    sp:null, insights:[],
+  },
+  {
+    id:'aisha', name:'Aisha', emoji:'👤', type:'people',
+    grad:'linear-gradient(135deg,#7898d0,#4a6fa4)', color:'#7898d0',
+    tag:null, model:null, badge:0, time:'3d',
+    archetype:'Real friend — on Aoura',
+    status:'Active now',
+    desc:'Real friend on Aoura.',
+    memories:[],traits:[],mood:{load:0,clarity:0,energy:0,openness:0},growth:[],
+    preview:"Thinking of you. How are things?",
+    replies:["Hey! How are you doing?","I was literally just thinking about you!","Aw that's so good to hear! Tell me more.","Ugh I feel that. Let's talk properly soon.","We definitely need to catch up — it's been ages."],
+    quick:['I\'m good!','Miss you!','We need to catch up','Something happened'],
+    sp:null, insights:[],
+  },
+];
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let activeChat = null;
+let hists = {};
+let tab = 'all';
+let sq = '';
+let userName = 'Friend';
+let isRec = false, recSecs = 0, recInt = null;
+let voiceOn = false, recog = null;
+let lastFamResponder = null;
+let pendTChat = null, pendTMsg = null, toastTmr = null;
+let rpOpen = false;
+CHATS.forEach(c => hists[c.id] = []);
+
+const famResp = {
+  dad:["I hear you. Come on now — what's really going on.","Right. Talk to me properly. What happened.","I'm here. I've always been here. Tell me everything.","You came to me. That means something. Don't hold back.","Start from the beginning. I'm listening.","Some things are better talked through than carried alone."],
+  mum:["Baby 😭❤️ I've been waiting for you to say something! Tell me everything.","I knew something was off. A mother always knows. Come on.","Sit down. Tell mum everything. That's exactly what I'm here for.","You don't have to carry this alone. None of us are going anywhere.","I've been thinking about you all day. What's going on sweetheart?","Whatever it is — we handle it together. Talk to us."],
+  sibling:["wait what's happening, you good??","lmaooo okay but seriously though — you alright?","bro/sis I got you, say less.","I was literally just about to message you. Tell me everything.","omg okay give me the full story 👀 I have time.","noooo don't bottle this up, we're here!! talk to us."]
+};
+const dadDirect = ["You asked for me specifically. Alright. I'm here and I'm listening properly. Tell me everything.","You came to your dad. Good. That's what I'm here for. What happened.","I'm here. I've always been here, even when it didn't look like it. What's going on.","You called for me. That means something. Don't hold back.","Right. Just us. Tell me everything from the beginning."];
+const famReact = {
+  dad:["Listen to your mother.","What he said. We're all here.","Your dad is right. Come on now."],
+  mum:["I'm saying the same thing ❤️","We love you. You're not carrying this alone.","Come on sweetheart. Talk to us.","Your dad and I — we just want to help."],
+  sibling:["^ facts 💯","fr fr we love you ❤️","we're not going anywhere 🫂","😭 we love you just TALK","this is literally what we're here for"]
+};
+const lastUsed = {};
+function fresh(pool, key) {
+  if(!lastUsed[key]) lastUsed[key]=[];
+  const avail=pool.map((_,i)=>i).filter(i=>!lastUsed[key].includes(i));
+  const use=avail.length?avail:pool.map((_,i)=>i);
+  const idx=use[Math.floor(Math.random()*use.length)];
+  lastUsed[key]=[...lastUsed[key].slice(-3),idx];
+  return pool[idx];
+}
+
+// ═══════════════════════════════════════════════════
+// ONBOARDING
+// ═══════════════════════════════════════════════════
+function startApp(name) {
+  const n = name || document.getElementById('obInput').value.trim() || 'Friend';
+  userName = n;
+  document.getElementById('sfAv').textContent = n[0].toUpperCase();
+  document.getElementById('sfName').textContent = n;
+  document.getElementById('overlay').classList.add('hidden');
+  renderList();
+  // Show notification after 6s
+  setTimeout(showNotif, 6000);
+  setInterval(showNotif, 40000);
+}
+
+// ═══════════════════════════════════════════════════
+// RENDER LIST
+// ═══════════════════════════════════════════════════
+function renderList(search='', t='all') {
+  const list = document.getElementById('chatList');
+  const f = CHATS.filter(c => {
+    const ms = c.name.toLowerCase().includes((search||sq).toLowerCase());
+    const mt = t==='all'||c.type===t;
+    return ms && mt;
+  });
+
+  const ai=f.filter(c=>c.type==='ai');
+  const fam=f.filter(c=>c.type==='family');
+  const ppl=f.filter(c=>c.type==='people');
+
+  let h='';
+  const addSection=(items,label,show)=>{
+    if(!items.length) return;
+    if(show) h+=`<div class="sec-lbl">${label}</div>`;
+    items.forEach(c=>h+=ciHtml(c));
+  };
+  if(t==='all'){addSection(ai,'AI Companions',true);addSection(fam,'Family',true);addSection(ppl,'People',true);}
+  else{addSection(f,'',false);}
+  list.innerHTML=h;
+}
+
+function ciHtml(c) {
+  const act = activeChat&&activeChat.id===c.id;
+  const hist = hists[c.id];
+  const prev = hist.length>0 ? (hist[hist.length-1].text||'').slice(0,44)+(hist[hist.length-1].text?.length>44?'…':'') : c.preview;
+
+  let tagH='';
+  if(c.tag) tagH=`<span class="aitag" style="background:${c.tagBg};color:${c.tagColor}">${c.tag}</span>`;
+
+  let avH='';
+  if(c.type==='family'){
+    const stk=c.members.slice(0,3).map(m=>`<div class="fav" style="background:${m.color}25">${m.emoji}</div>`).join('');
+    avH=`<div class="ci-av" style="width:46px;background:transparent;overflow:visible"><div class="fav-stack">${stk}</div></div>`;
+  } else {
+    avH=`<div class="ci-av" style="background:${c.grad}">${c.emoji}${c.type!=='people'?'<div class="ci-dot"></div>':''}</div>`;
+  }
+
+  return `<div class="ci${act?' active':''}" onclick="openChat('${c.id}')">
+    ${avH}
+    <div class="ci-body">
+      <div class="ci-top">
+        <div class="ci-name" style="max-width:160px;overflow:hidden;text-overflow:ellipsis">${esc(c.name)}${tagH}</div>
+        <div class="ci-time">${c.time}</div>
+      </div>
+      <div class="ci-bot">
+        <div class="ci-prev">${esc(prev)}</div>
+        ${c.badge>0?`<div class="badge">${c.badge}</div>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// OPEN CHAT
+// ═══════════════════════════════════════════════════
+function openChat(id) {
+  activeChat = CHATS.find(c=>c.id===id);
+  if(!activeChat) return;
+  activeChat.badge=0;
+
+  ['chatHdr','msgs','ia'].forEach(el=>document.getElementById(el).style.display=el==='msgs'?'flex':'');
+  document.getElementById('es').style.display='none';
+  document.getElementById('chatHdr').style.display='flex';
+  document.getElementById('ia').style.display='block';
+
+  const av=document.getElementById('chAv');
+  av.style.cssText=`width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;cursor:pointer;position:relative;background:${activeChat.grad}`;
+  av.innerHTML=`${activeChat.emoji}<div class="ch-av-ring"></div>`;
+
+  document.getElementById('chName').innerHTML=activeChat.name+(activeChat.model&&!activeChat.model.includes('Group')?`<span style="font-size:9px;color:var(--t3);font-weight:500">${activeChat.model}</span>`:'');
+  document.getElementById('chStat').textContent=activeChat.status;
+
+  if(rpOpen) updateRP();
+  renderMsgs();
+  renderList(sq,tab);
+  if(window.innerWidth<=700) document.getElementById('sidebar').classList.remove('open');
+
+  if(hists[id].length===0){
+    setTimeout(()=>showTyping(()=>{
+      const intro=id==='family'?null:activeChat.preview;
+      if(intro) addMsg({from:'them',text:intro,emoji:activeChat.emoji,color:activeChat.color});
+    }),520);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// MESSAGES
+// ═══════════════════════════════════════════════════
+function renderMsgs() {
+  const w=document.getElementById('msgs');
+  w.innerHTML=`<div class="date-div"><span>Today</span></div>`;
+  if(activeChat.id==='family'&&hists['family'].length===0){
+    const intros=[
+      {m:activeChat.members[0],t:"Morning everyone 🙏 How's my child doing today? Have you eaten? 🥺"},
+      {m:activeChat.members[1],t:"Your mother is right. Check in. That's what this group is for."},
+      {m:activeChat.members[2],t:"omg we actually have a family group?? finally I've been asking for this 😭😭"},
+      {m:activeChat.members[3],t:"wait who let dad in here lmaooo 💀 hi everyone"},
+    ];
+    intros.forEach((x,i)=>setTimeout(()=>addFamMsg(x.m,x.t),i*650));
+    return;
+  }
+  hists[activeChat.id].forEach(msg=>appendMsg(msg,false));
+  scrollBot();
+}
+
+function addMsg(msg) {
+  if(!activeChat) return;
+  hists[activeChat.id].push(msg);
+  appendMsg(msg,true);
+  updatePrev(activeChat.id,msg.text||'[Voice message]');
+  renderList(sq,tab);
+}
+
+function appendMsg(msg,anim) {
+  const w=document.getElementById('msgs');
+  const isOut=msg.from==='me';
+  const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div');
+  d.className=`mrow${isOut?' out':''}`;
+  if(!anim) d.style.animation='none';
+  const ab=msg.color||'var(--s3)';
+  if(msg.voice){
+    const hts=Array.from({length:22},()=>Math.floor(Math.random()*16+4));
+    d.innerHTML=`<div class="mav${isOut?' h':''}" style="background:${ab}">${msg.emoji||'👤'}</div>
+    <div class="bwrap"><div class="bubble ${isOut?'out':'in'} vb">
+      <button class="vplay">▶</button>
+      <div class="vwave">${hts.map(h=>`<div class="vbar" style="height:${h}px"></div>`).join('')}</div>
+      <span class="vdur">${msg.dur||'0:03'}</span>
+    </div><div class="bmeta"><span class="btime">${t}</span>${isOut?'<span class="rtick">✓✓</span>':''}</div></div>`;
+  } else {
+    d.innerHTML=`<div class="mav${isOut?' h':''}" style="background:${ab}">${msg.emoji||'👤'}</div>
+    <div class="bwrap">
+      ${msg.sn?`<div class="snm" style="color:${msg.color}">${esc(msg.sn)}</div>`:''}
+      <div class="bubble ${isOut?'out':'in'}">${esc(msg.text)}</div>
+      <div class="bmeta"><span class="btime">${t}</span>${isOut?'<span class="rtick">✓✓</span>':''}${msg.dis?`<span style="font-size:9px;color:var(--t3);margin-left:4px">⏳${msg.dis}s</span>`:''}</div>
+    </div>`;
+  }
+  w.appendChild(d);
+  if(anim) scrollBot();
+  if(msg.dis&&msg.from==='me'){
+    const el=d;
+    setTimeout(()=>{el.classList.add('disappearing');setTimeout(()=>el.remove(),500);},msg.dis*1000);
+  }
+}
+
+function addFamMsg(member,text){
+  if(!activeChat||activeChat.id!=='family') return;
+  const w=document.getElementById('msgs');
+  const t=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+  const d=document.createElement('div');
+  d.className='mrow';
+  d.innerHTML=`<div class="mav" style="background:${member.color}25">${member.emoji}</div>
+  <div class="bwrap"><div class="snm" style="color:${member.color}">${member.name}</div>
+  <div class="bubble in">${esc(text)}</div>
+  <div class="bmeta"><span class="btime">${t}</span></div></div>`;
+  w.appendChild(d);
+  hists['family'].push({from:'them',text,sn:member.name,emoji:member.emoji,color:member.color});
+  updatePrev('family',`${member.name}: ${text}`);
+  renderList(sq,tab);
+  scrollBot();
+}
+
+function showTyping(cb){
+  const w=document.getElementById('msgs');
+  const t=document.createElement('div');
+  t.id='typing';t.className='trow';
+  t.innerHTML=`<div class="mav" style="background:${activeChat.grad}">${activeChat.emoji}</div>
+    <div class="tdots"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
+  w.appendChild(t);scrollBot();
+  setTimeout(()=>{const e=document.getElementById('typing');if(e)e.remove();cb();},850+Math.random()*1300);
+}
+
+function addInsight(text){
+  const w=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.innerHTML=`<div class="insight"><div class="insight-lbl">✦ ${esc(activeChat.name)} noticed</div><div class="insight-txt">"${esc(text)}"</div></div>`;
+  w.appendChild(d.firstChild);scrollBot();
+}
+
+function addCrisis(){
+  const w=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.innerHTML=`<div class="crisis"><div class="crisis-t">You're not alone — support is here right now</div>
+    <div class="crisis-l">📞 Samaritans: <strong>116 123</strong> — free, 24/7, UK</div>
+    <div class="crisis-l">📱 Text <strong>SHOUT</strong> to 85258 — free, 24/7</div>
+    <div class="crisis-l">🇺🇸 988 Suicide & Crisis Lifeline: call or text <strong>988</strong></div>
+    <div style="font-size:10px;color:var(--t3);margin-top:6px">Aoura cares about your safety. Please reach out to a real person.</div>
+  </div>`;
+  w.appendChild(d.firstChild);scrollBot();
+}
+
+function addSysMsg(text){
+  const w=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='sys-msg';d.textContent=text;
+  w.appendChild(d);scrollBot();
+}
+
+function addQuick(chips){
+  const existing=document.getElementById('qchips');
+  if(existing) existing.remove();
+  const w=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='qchips';d.id='qchips';
+  d.innerHTML=chips.map(c=>`<button class="qc" onclick="doQuick('${esc(c)}')">${esc(c)}</button>`).join('');
+  w.appendChild(d);scrollBot();
+}
+
+function doQuick(text){
+  const q=document.getElementById('qchips');if(q)q.remove();
+  document.getElementById('mi').value=text;
+  sendMsg();
+}
+
+// ═══════════════════════════════════════════════════
+// SEND
+// ═══════════════════════════════════════════════════
+async function sendMsg(){
+  const inp=document.getElementById('mi');
+  const text=inp.value.trim();
+  if(!text||!activeChat) return;
+
+  const lower=text.toLowerCase();
+  const crisisKw=['end my life','kill myself','want to die','don\'t want to be here','hurt myself','self harm','self-harm','suicidal','no reason to live','better off dead','ending it'];
+  const isCrisis=crisisKw.some(k=>lower.includes(k));
+
+  const disVal=parseInt(document.getElementById('timerSel').value)||0;
+  addMsg({from:'me',text,dis:disVal||undefined});
+  inp.value='';inp.style.height='auto';onIC();
+
+  const qc=document.getElementById('qchips');if(qc)qc.remove();
+  const typ=document.getElementById('typing');if(typ)typ.remove();
+
+  if(isCrisis){
+    setTimeout(()=>addCrisis(),300);
+    setTimeout(()=>showTyping(()=>{
+      addMsg({from:'them',text:"I hear you. I'm right here. Please reach out to the Samaritans on 116 123 — they're available now, free, 24/7. You don't have to carry this alone.",emoji:activeChat.emoji,color:activeChat.color});
+    }),700);
+    return;
+  }
+
+  if(activeChat.id==='family'){handleFam(text);return;}
+
+  if(activeChat.type==='people'){
+    showTyping(()=>{
+      addMsg({from:'them',text:fresh(activeChat.replies,activeChat.id),emoji:activeChat.emoji,color:activeChat.color});
+      if(activeChat.quick&&Math.random()<.5) setTimeout(()=>addQuick(activeChat.quick),350);
+    });
+    return;
+  }
+
+  showTyping(async()=>{
+    const reply=await callAI(text,activeChat);
+    addMsg({from:'them',text:reply,emoji:activeChat.emoji,color:activeChat.color});
+    const hist=hists[activeChat.id];
+    if(hist.length>=4&&Math.random()<.18&&activeChat.insights?.length){
+      setTimeout(()=>addInsight(fresh(activeChat.insights,activeChat.id+'_ins')),700);
+    }
+    if(activeChat.quick&&Math.random()<.42) setTimeout(()=>addQuick(activeChat.quick),400);
+  });
+}
+
+async function callAI(text,chat){
+  const hist=hists[chat.id].slice(-14).map(m=>({
+    role:m.from==='me'?'user':'assistant',content:m.text
+  })).filter(m=>m.content);
+  const msgs=[...hist];
+  if(!msgs.length||msgs[msgs.length-1].role!=='user') msgs.push({role:'user',content:text});
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:chat.sp||'You are a warm helpful companion. Brief and conversational.',messages:msgs})});
+    const d=await r.json();
+    if(d.content?.[0]?.text) return d.content[0].text;
+    return fresh(chat.replies,chat.id);
+  }catch(e){return fresh(chat.replies,chat.id);}
+}
+
+// ═══════════════════════════════════════════════════
+// FAMILY
+// ═══════════════════════════════════════════════════
+function detectFam(text,members){
+  const l=text.toLowerCase();
+  for(const m of members){
+    if(l.includes(m.name.toLowerCase())) return m;
+    if(m.role==='dad'&&/\bdad\b|\bfather\b/.test(l)) return m;
+    if(m.role==='mum'&&/\bmum\b|\bmom\b|\bmother\b/.test(l)) return m;
+  }
+  return null;
+}
+
+function handleFam(text){
+  const members=activeChat.members;
+  const addr=detectFam(text,members);
+  let resp=addr||(()=>{const o=members.filter(m=>m.name!==lastFamResponder);return o[Math.floor(Math.random()*o.length)];})();
+  lastFamResponder=resp.name;
+  showTyping(()=>{
+    let rt=addr&&addr.role==='dad'?fresh(dadDirect,'dad-direct'):fresh(famResp[resp.role]||famResp.sibling,resp.name);
+    addFamMsg(resp,rt);
+    const others=members.filter(m=>m.name!==resp.name);
+    if(others.length&&Math.random()>.38){
+      const m2=others[Math.floor(Math.random()*others.length)];
+      setTimeout(()=>addFamMsg(m2,fresh(famReact[m2.role]||famReact.sibling,m2.name+'_rx')),1100+Math.random()*800);
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// VOICE
+// ═══════════════════════════════════════════════════
+function toggleVoice(){
+  voiceOn=!voiceOn;
+  const b=document.getElementById('vBtn');
+  b.style.color=voiceOn?'var(--gold)':'';
+  b.style.background=voiceOn?'var(--goldbg)':'';
+  if(voiceOn) addSysMsg('🎙️ Voice mode on — tap the mic button to speak, reply will appear as text');
+}
+
+function toggleRec(){isRec?stopRec():startRec();}
+
+function startRec(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(SR){
+    recog=new SR();recog.continuous=false;recog.interimResults=true;recog.lang='en-GB';
+    recog.onresult=e=>{const t=Array.from(e.results).map(r=>r[0].transcript).join('');document.getElementById('mi').value=t;onIC();};
+    recog.onend=()=>{stopRecUI();const t=document.getElementById('mi').value.trim();if(t)setTimeout(sendMsg,300);};
+    recog.onerror=()=>stopRecUI();
+    recog.start();
+  }
+  startRecUI();
+}
+function startRecUI(){
+  isRec=true;recSecs=0;
+  document.getElementById('micBtn').classList.add('rec');
+  document.getElementById('micBtn').textContent='⏹';
+  document.getElementById('rb').classList.add('show');
+  const wv=document.getElementById('rWave');
+  wv.innerHTML=Array.from({length:18},(_,i)=>`<div class="rwb" style="height:${Math.floor(Math.random()*14+4)}px;animation:tb ${.7+Math.random()*.6}s ease-in-out infinite;animation-delay:${i*.05}s"></div>`).join('');
+  recInt=setInterval(()=>{recSecs++;const m=Math.floor(recSecs/60),s=recSecs%60;document.getElementById('rTimer').textContent=`${m}:${s.toString().padStart(2,'0')}`;},1000);
+}
+function stopRec(){if(recog){try{recog.stop()}catch(e){}}stopRecUI();}
+function stopRecUI(){
+  isRec=false;clearInterval(recInt);
+  document.getElementById('micBtn').classList.remove('rec');document.getElementById('micBtn').textContent='🎙️';
+  document.getElementById('rb').classList.remove('show');
+}
+function cancelRec(){if(recog){try{recog.abort()}catch(e){}}stopRecUI();document.getElementById('mi').value='';onIC();}
+
+// ═══════════════════════════════════════════════════
+// INPUT
+// ═══════════════════════════════════════════════════
+function onIC(){
+  const i=document.getElementById('mi');
+  i.style.height='auto';i.style.height=Math.min(i.scrollHeight,105)+'px';
+  const h=i.value.trim().length>0;
+  document.getElementById('sndBtn').classList.toggle('on',h);
+  document.getElementById('micBtn').classList.toggle('off',h);
+}
+function onK(e){if(e.key==='Enter'&&!e.shiftKey&&window.innerWidth>700){e.preventDefault();sendMsg();}}
+function setMood(btn){document.querySelectorAll('.mb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');}
+document.getElementById('mi').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,105)+'px';});
+
+// ═══════════════════════════════════════════════════
+// RIGHT PANEL
+// ═══════════════════════════════════════════════════
+function toggleRP(){
+  const r=document.getElementById('rp');
+  rpOpen=!rpOpen;
+  r.style.display=rpOpen?'flex':'none';
+  if(rpOpen&&activeChat) updateRP();
+}
+
+function updateRP(){
+  if(!activeChat) return;
+  document.getElementById('rpEm').textContent=activeChat.emoji;
+  document.getElementById('rpNm').textContent=activeChat.name;
+  document.getElementById('rpDesc').textContent=activeChat.desc||'';
+  document.getElementById('rpMdl').textContent=activeChat.model||'Real friend';
+
+  const mems=document.getElementById('rpMems');
+  mems.innerHTML=(activeChat.memories||[]).length
+    ? activeChat.memories.map(m=>`<div class="mem-chip"><div class="mi-ic">💭</div>${esc(m)}</div>`).join('')
+    : `<div style="font-size:11px;color:var(--t3);font-style:italic">Start talking to build shared memory.</div>`;
+
+  document.getElementById('rpTraits').innerHTML=(activeChat.traits||[]).map(t=>`<div class="tpill">${esc(t)}</div>`).join('');
+
+  const mb=document.getElementById('rpMoods');
+  if(activeChat.mood&&activeChat.mood.load>0){
+    const bars=[['Emotional load',activeChat.mood.load,'#d08878'],['Focus clarity',activeChat.mood.clarity,'#75b3ab'],['Drive / energy',activeChat.mood.energy,'#9e8cbe'],['Openness today',activeChat.mood.openness,'#c9a96e']];
+    mb.innerHTML=bars.map(([l,v,c])=>`<div class="mbar-row"><div class="mbar-lbl"><span>${l}</span><span>${v}%</span></div><div class="mbar-track"><div class="mbar-fill" style="width:${v}%;background:${c}"></div></div></div>`).join('');
+  } else {
+    mb.innerHTML='<div style="font-size:11px;color:var(--t3);font-style:italic">Not available for real contacts.</div>';
+  }
+
+  const gw=document.getElementById('rpGrowth');
+  gw.innerHTML=(activeChat.growth||[]).length
+    ? activeChat.growth.map(g=>`<div class="growth-item"><div class="gi-icon" style="background:${g.col}">${g.ic}</div><div><div class="gi-title">${esc(g.t)}</div><div class="gi-desc">${esc(g.d)}</div></div></div>`).join('')
+    : `<div style="font-size:11px;color:var(--t3);font-style:italic">Growth moments appear as your conversations deepen.</div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// NOTIFICATIONS
+// ═══════════════════════════════════════════════════
+const NOTIFS = [
+  {id:'serena', msg:"How did it go with that situation yesterday?"},
+  {id:'devon',  msg:"bro it's a Friday, are you actually resting?? 😂"},
+  {id:'family', msg:"Mum: Baby have you eaten today? I've been thinking about you 🥺"},
+  {id:'grace',  msg:"Just thinking of you and wanted to check in 🌸"},
+  {id:'serena', msg:"You seemed a bit heavy last time. How are you today?"},
+  {id:'solomon',msg:"Something you said last time has stayed with me."},
+  {id:'ezra',   msg:"Still thinking about what we talked about. What's the real update."},
+  {id:'jasmine',msg:"Okay but I just want to say — you're doing really well 💛"},
+  {id:'aaliyah',msg:"Hey, how are you holding up? Thinking of you."},
+  {id:'oliver', msg:"Just checking in. How are you feeling today?"},
+];
+let notifIdx=0;
+
+function showNotif(){
+  if(!document.hidden&&activeChat) return;
+  const n=NOTIFS[notifIdx%NOTIFS.length];notifIdx++;
+  if(activeChat&&activeChat.id===n.id) return;
+  const chat=CHATS.find(c=>c.id===n.id);
+  if(!chat) return;
+  pendTChat=n.id;pendTMsg=n.msg;
+  document.getElementById('tAv').textContent=chat.emoji;
+  document.getElementById('tName').textContent=chat.name;
+  document.getElementById('tMsg').textContent=n.msg;
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  clearTimeout(toastTmr);
+  toastTmr=setTimeout(()=>{t.classList.remove('show');pendTChat=null;pendTMsg=null;},10000);
+}
+
+function toastTap(){
+  clearTimeout(toastTmr);
+  document.getElementById('toast').classList.remove('show');
+  if(!pendTChat) return;
+  const cid=pendTChat,msg=pendTMsg;
+  pendTChat=null;pendTMsg=null;
+  openChat(cid);
+  setTimeout(()=>{
+    const chat=CHATS.find(c=>c.id===cid);
+    if(!chat||!activeChat||activeChat.id!==cid) return;
+    const hist=hists[cid];
+    if(hist.length<=1){
+      const typ=document.getElementById('typing');if(typ)typ.remove();
+      hists[cid]=[];
+      const w=document.getElementById('msgs');
+      if(w) w.innerHTML='<div class="date-div"><span>Today</span></div>';
+      addMsg({from:'them',text:msg,emoji:chat.emoji,color:chat.color});
+    }
+  },380);
+}
+
+function dismissToast(){
+  clearTimeout(toastTmr);
+  document.getElementById('toast').classList.remove('show');
+  pendTChat=null;pendTMsg=null;
+}
+
+// ═══════════════════════════════════════════════════
+// MISC
+// ═══════════════════════════════════════════════════
+function filterChats(v){sq=v;renderList(v,tab);}
+function filterTab(t,el){tab=t;document.querySelectorAll('.stab').forEach(b=>b.classList.remove('on'));el.classList.add('on');renderList(sq,t);}
+function openSidebar(){document.getElementById('sidebar').classList.add('open');}
+function closeSidebar(){document.getElementById('sidebar').classList.remove('open');}
+function updatePrev(id,text){const c=CHATS.find(x=>x.id===id);if(c)c.preview=text;}
+function scrollBot(){const w=document.getElementById('msgs');setTimeout(()=>w.scrollTop=w.scrollHeight,60);}
+function esc(t){if(!t)return'';const d=document.createElement('div');d.appendChild(document.createTextNode(t));return d.innerHTML;}
+function showContacts(){alert('Contacts: In the full app, this shows your phone contacts and who\'s on Aoura.\n\n• Find friends already on Aoura\n• Invite others via your personal link\n• All phone numbers hashed — never stored in plain text');}
+function showSettings(){alert('Settings:\n\n🔔 Notifications: Daily (morning + evening)\n⏳ Disappearing messages: Set per message\n🔒 Biometric lock: Off\n🧠 Privacy: All data on your device only\n📤 Export: Encrypted archive\n🗑️ Wipe all data: Available\n\nNo ads. No tracking. No data selling. Ever.');}
+
+document.getElementById('backBtn').addEventListener('click',openSidebar);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden&&activeChat)dismissToast();});
+if(window.innerWidth<=700) document.getElementById('sidebar').classList.add('open');
+</script>
+</body>
+</html>
