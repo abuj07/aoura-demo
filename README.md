@@ -1,6 +1,6 @@
 # Aoura — Interactive Demo
 
-**Live demo:** `https://[your-username].github.io/aoura-demo`
+**Live demo:** `https://abuj07.github.io/aoura-demo`
 
 This is the interactive HTML prototype for Aoura — *Your private space to talk, reflect, and be heard.*
 
